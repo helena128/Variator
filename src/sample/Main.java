@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,26 +20,25 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        Scene scene = new Scene(new Group(), 450, 250);
+        stage.setResizable(false);
+        stage.setTitle("Variator");
 
+        Scene scene = new Scene(new Group(), 450, 410);
+        scene.getStylesheets().add("resources/style.css");
 
         GridPane grid = new GridPane();
-
 
         Group root = (Group) scene.getRoot();
         addTextField("Фамилия:", grid, 0);
         addTextField("Имя:", grid, 1);
         addTextField("Отчество:", grid, 2);
 
-        addTextField("А:", grid, 3);
-        addTextField("Б:", grid, 4);
-        addTextField("В:", grid, 5);
-        addTextField("Г:", grid, 6);
-        addTextField("Д:", grid, 7);
-        addTextField("Е:", grid, 8);
-        addTextField("Ё:", grid, 9);
+        char[] letters = "АБВГДЕЁ".toCharArray();
+        for (int i = 3, j = 0; j < letters.length; i++, j++)
+            addTextField(letters[j] + "", grid, i);
 
-        //changeVisibility(grid, 6, 21, false);
+        changeVisibility(grid, 6,  19, false);
+        changeEditability(grid, 6, 19);
 
         addButton("Go", grid);
         addButton("Clear", grid);
@@ -73,6 +73,11 @@ public class Main extends Application {
         int rowindex = 0;
 
         if (label.equals("Go")){
+
+            button.setStyle(
+                    "-fx-background-color: darkseagreen"
+            );
+
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -97,10 +102,11 @@ public class Main extends Application {
                             System.out.println(num.intValue()); */
 
                         for (int i = 7, j = 0; j < numbers.size(); j++){
-                            perforAction(grid, i, numbers.get(j));
+                            performAction(grid, i, numbers.get(j));
                             i += 2;
                         }
 
+                        changeVisibility(grid, 6, 19,true);
                     }
                 }
             });
@@ -108,12 +114,17 @@ public class Main extends Application {
 
             rowindex = 1;
 
+            button.setStyle(
+                    "-fx-background-color: lightskyblue"
+            );
+
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     for (int j = 0; j < grid.getChildren().size(); j ++){
                         performAction(grid, j);
                     }
+                    changeVisibility(grid, 6, 19, false);
                 }
             });
         }
@@ -130,7 +141,7 @@ public class Main extends Application {
         }
     }
 
-    private void perforAction(GridPane grid, int i, Integer val){
+    private void performAction(GridPane grid, int i, Integer val){
         Object obj = grid.getChildren().get(i);
         if ((obj.getClass().getName()).equals("javafx.scene.control.TextField" )) {
             TextField text = (TextField) obj;
@@ -140,8 +151,17 @@ public class Main extends Application {
 
     private void changeVisibility(GridPane grid, int min, int max, boolean visible){
         List<Node> nodes = grid.getChildren();
-        for (int i = min; i <= max; i++){
+        for (int i = min; i < nodes.size() && i <= max; i++){
             nodes.get(i).setVisible(visible);
+        }
+    }
+
+    private void changeEditability(GridPane grid, int min, int max){
+        List<Node> nodes = grid.getChildren();
+        for (int i = min; i < nodes.size() && i <= max; i++){
+            if (nodes.get(i).getClass().getName().equals("javafx.scene.control.TextField")){
+                ((TextField)nodes.get(i)).setEditable(false);
+            }
         }
     }
 }

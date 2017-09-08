@@ -2,7 +2,6 @@ package sample;
 
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,12 +15,9 @@ public class Controller {
 
         Matcher m = patt.matcher(str);
 
-        System.out.println("GOT: >" + str + "<");
         if (m.find()){
-            System.out.println("FOUND");
             return true;
         } else {
-            System.out.println("Not found");
             return false;
         }
 
@@ -48,7 +44,6 @@ public class Controller {
             String middle = scanner.nextLine();
 
             Variant var = new Variant(name, surname, middle);
-            System.out.println(var.toString());
             ArrayList<Integer> numbers = var.generateNumbers();
 
             for (Integer num: numbers)
