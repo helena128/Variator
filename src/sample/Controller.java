@@ -29,7 +29,11 @@ public class Controller {
 
 
     public static int getStringLength(String line){
-        return ((line.replaceAll("\\s+", "")).length());
+        if (line != null)
+            line = line.replaceAll("\\s+", "");
+        if (line == null)
+            return 0;
+        return line.length();
     }
 
     public static void  main(String args[]){
@@ -40,10 +44,15 @@ public class Controller {
             System.out.println("Surname:");
             String surname = scanner.nextLine();
             System.out.println("Middlename:");
+            scanner = new Scanner(System.in);
             String middle = scanner.nextLine();
 
             Variant var = new Variant(name, surname, middle);
+            System.out.println(var.toString());
             ArrayList<Integer> numbers = var.generateNumbers();
+
+            for (Integer num: numbers)
+                System.out.println(num.intValue());
         }
     }
 }

@@ -14,7 +14,7 @@ public class Variant {
     public Variant(String name, String surname, String middlename){
         this.name = name;
         this.surname = surname;
-        this.middle = middle;
+        this.middle = middlename;
     }
 
     public String getName() {
@@ -52,8 +52,8 @@ public class Variant {
         ArrayList<Integer> numbers = new ArrayList<>(7);
         // filling out generic
         int nameLength = Controller.getStringLength(name);
-        int middleLength = Controller.getStringLength(middle);
         int surnameLength = Controller.getStringLength(surname);
+        int middleLength = (middle.replaceAll("\\s+", "")).length();
 
         numbers.add(surnameLength * nameLength); // А
         numbers.add(numbers.get(0) + 1); // Б
@@ -69,5 +69,10 @@ public class Variant {
         numbers.add(3 + (numbers.get(0) % 6)); // Ё
 
         return numbers;
+    }
+
+    @Override
+    public String toString(){
+        return ("Name " + this.name + " Surname " + this.surname + " Middle " + this.middle);
     }
 }
