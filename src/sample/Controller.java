@@ -1,6 +1,8 @@
 package sample;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,11 +27,23 @@ public class Controller {
 
     }
 
+
+    public static int getStringLength(String line){
+        return ((line.replaceAll("\\s+", "")).length());
+    }
+
     public static void  main(String args[]){
         Scanner scanner = new Scanner(System.in);
         while(true) {
-            String line = scanner.nextLine();
-            validate(line);
+            System.out.println("Name:");
+            String name = scanner.nextLine();
+            System.out.println("Surname:");
+            String surname = scanner.nextLine();
+            System.out.println("Middlename:");
+            String middle = scanner.nextLine();
+
+            Variant var = new Variant(name, surname, middle);
+            ArrayList<Integer> numbers = var.generateNumbers();
         }
     }
 }
